@@ -1,3 +1,5 @@
+![CoreLedger logo](assets/logo.png)
+
 # CoreLedger: _A Personal Blockchain Experiment_
 
 ## Introduction
