@@ -20,6 +20,6 @@ pub fn root_hash(hashes: Vec<Hash>) -> Hash {
     }
 }
 
-fn combine_hashes(left: &Hash, right: &Hash) -> Hash{
+fn combine_hashes(left: &Hash, right: &Hash) -> Hash {
     Hash::from([left.as_ref(), right.as_ref()].concat().as_ref())
 }

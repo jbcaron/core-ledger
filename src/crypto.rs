@@ -1,6 +1,8 @@
 use secp256k1::hashes::{sha256, Hash as Hash_lib};
 use secp256k1::rand::rngs::OsRng;
-use secp256k1::{ecdsa::Signature as Signature_lib, Message, PublicKey as PublicKey_lib, Secp256k1, SecretKey};
+use secp256k1::{
+    ecdsa::Signature as Signature_lib, Message, PublicKey as PublicKey_lib, Secp256k1, SecretKey,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Hash([u8; 32]);
@@ -61,17 +63,23 @@ pub fn sign_hash(hash: &Hash, private_key: &PrivateKey) -> Result<Signature, Str
     let secp = Secp256k1::new();
     let message = Message::from_digest_slice(hash.0.as_slice()).map_err(|e| e.to_string())?;
     let secret_key = SecretKey::from_slice(private_key.0.as_slice()).map_err(|e| e.to_string())?;
-    let signature = secp.sign_ecdsa(&message, &secret_key)
-        .serialize_compact();
+    let signature = secp.sign_ecdsa(&message, &secret_key).serialize_compact();
     Ok(Signature(signature))
 }
 
-pub fn verify_signature(public_key: &PublicKey, hash: &Hash, signature: &Signature) -> Result<(), String> {
+pub fn verify_signature(
+    public_key: &PublicKey,
+    hash: &Hash,
+    signature: &Signature,
+) -> Result<(), String> {
     let secp = Secp256k1::new();
-    let public_key = PublicKey_lib::from_slice(public_key.0.as_slice()).map_err(|e| e.to_string())?;
+    let public_key =
+        PublicKey_lib::from_slice(public_key.0.as_slice()).map_err(|e| e.to_string())?;
     let message = Message::from_digest_slice(hash.0.as_slice()).map_err(|e| e.to_string())?;
-    let signature = Signature_lib::from_compact(signature.0.as_slice()).map_err(|e| e.to_string())?;
-    secp.verify_ecdsa(&message, &signature, &public_key).map_err(|e| e.to_string())
+    let signature =
+        Signature_lib::from_compact(signature.0.as_slice()).map_err(|e| e.to_string())?;
+    secp.verify_ecdsa(&message, &signature, &public_key)
+        .map_err(|e| e.to_string())
 }
 
 /// Generate a new keypair for the secp256k1 curve
@@ -94,9 +102,6 @@ pub fn generate_keypair_from_secret(secret: &[u8]) -> (PrivateKey, PublicKey) {
         PublicKey(public_key.serialize()),
     )
 }
-
-pub fn drive_
-
 
 #[cfg(test)]
 mod tests {

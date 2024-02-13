@@ -1,4 +1,4 @@
-use crate::crypto::{Hash, PublicKey, PrivateKey, Signature, sign_hash, verify_signature};
+use crate::crypto::{sign_hash, verify_signature, Hash, PrivateKey, PublicKey, Signature};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Transaction {
@@ -80,7 +80,7 @@ impl Transaction {
         Hash::from(data.concat().as_ref())
     }
 
-    pub fn sign(&mut self, private_key: &PrivateKey) -> Result<(), String>{
+    pub fn sign(&mut self, private_key: &PrivateKey) -> Result<(), String> {
         let hash = self.hash();
         self.signature = sign_hash(&hash, private_key)?;
         Ok(())

@@ -1,7 +1,7 @@
 use crate::account::Account;
 use crate::block::{Block, BlockBuilder};
+use crate::crypto::{Hash, PublicKey};
 use crate::transaction::Transaction;
-use crate::crypto::{PublicKey, Hash};
 use std::collections::HashMap;
 
 struct Blockchain {
@@ -14,7 +14,7 @@ impl Blockchain {
     pub fn new(transaction: Transaction, timestamp: u64) -> Result<Blockchain, String> {
         let genesis_block = Block::new_genesis(vec![transaction], timestamp)?;
         let hash = genesis_block.hash();
-        
+
         let mut blockchain = Blockchain {
             blocks: vec![genesis_block.clone()],
             pending_block: BlockBuilder::new(1, &hash),
@@ -124,7 +124,7 @@ impl Blockchain {
 
     pub fn finalize_and_mint_pending_block(&mut self) {
         self.blocks.push(Block::from(self.pending_block.clone()));
-        self.pending_block = BlockBuilder::new (
+        self.pending_block = BlockBuilder::new(
             self.last_block().unwrap().index() + 1,
             &self.last_block().unwrap().hash(),
         );

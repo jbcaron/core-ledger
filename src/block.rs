@@ -1,8 +1,8 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use crate::crypto::Hash;
 use crate::merkle;
 use crate::transaction::Transaction;
-use crate::crypto::Hash;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Block {
@@ -79,7 +79,9 @@ impl From<BlockBuilder> for Block {
             index: builder.index,
             timestamp,
             previous_hash: builder.previous_hash,
-            transactions_root: merkle::root_hash(builder.transactions.iter().map(|tx| tx.hash()).collect()),
+            transactions_root: merkle::root_hash(
+                builder.transactions.iter().map(|tx| tx.hash()).collect(),
+            ),
             transactions: builder.transactions,
             hash,
         }
@@ -87,7 +89,6 @@ impl From<BlockBuilder> for Block {
 }
 
 impl Block {
-
     pub fn new_genesis(transactions: Vec<Transaction>, timestamp: u64) -> Result<Block, String> {
         if transactions.is_empty() {
             return Err("Genesis block must have at least one transaction".to_string());
