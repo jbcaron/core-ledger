@@ -1,13 +1,13 @@
 mod account;
-mod transaction;
-mod utils;
+mod block;
 mod blockchain;
 mod merkle;
-mod block;
+mod transaction;
+mod crypto;
 
 pub use account::*;
-pub use transaction::*;
-pub use utils::*;
+pub use block::*;
 pub use blockchain::*;
 pub use merkle::*;
-pub use block::*;
+pub use transaction::*;
+pub use crypto::*;

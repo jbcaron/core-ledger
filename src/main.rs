@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    todo!("Implement the server and client here.");
 }

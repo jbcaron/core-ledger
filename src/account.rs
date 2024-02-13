@@ -1,22 +1,30 @@
+use crate::crypto::PublicKey;
+
 #[derive(Debug, Clone)]
 pub struct Account {
-    address: Vec<u8>,
+    address: PublicKey,
     balance: u64,
     nonce: u64,
 }
 
+impl From<PublicKey> for Account {
+    fn from(address: PublicKey) -> Self {
+        Account::new(&address)
+    }
+}
+
 impl Account {
-    pub fn new(address: Vec<u8>) -> Account {
+    pub fn new(address: &PublicKey) -> Account {
         Account {
-            address,
+            address: address.clone(),
             balance: 0,
             nonce: 0,
         }
     }
 
-	pub fn address(&self) -> Vec<u8> {
-		self.address.clone()
-	}
+    pub fn address(&self) -> PublicKey {
+        self.address.clone()
+    }
 
     pub fn balance(&self) -> u64 {
         self.balance
